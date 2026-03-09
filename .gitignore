@@ -1,6 +1,9 @@
 # Local .terraform directories
 .terraform/
 
+# Ignore backend file
+backend.hcl
+
 # .tfstate files
 *.tfstate
 *.tfstate.*
