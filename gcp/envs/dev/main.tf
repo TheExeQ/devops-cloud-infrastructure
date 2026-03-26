@@ -16,6 +16,10 @@ provider "google" {
   region  = var.region
 }
 
+data "google_compute_default_service_account" "default" {
+  project = var.project_id
+}
+
 module "network" {
   source = "../../modules/network"
 
@@ -25,4 +29,17 @@ module "network" {
   subnet_cidr = var.subnet_cidr
 
   depends_on = [google_project_service.compute]
+}
+
+module "compute" {
+  source = "../../modules/compute"
+
+  project_id            = var.project_id
+  environment           = var.environment
+  zone                  = "${var.region}-b"
+  network               = module.network.network_id
+  subnetwork            = module.network.subnetwork_id
+  service_account_email = data.google_compute_default_service_account.default.email
+
+  depends_on = [module.network]
 }
