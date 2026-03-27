@@ -27,6 +27,7 @@ module "network" {
   region      = var.region
   environment = var.environment
   subnet_cidr = var.subnet_cidr
+  external_access_ip = var.external_access_ip
 
   depends_on = [google_project_service.compute]
 }

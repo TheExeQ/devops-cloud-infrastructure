@@ -34,7 +34,15 @@ resource "google_compute_instance" "postgres" {
   network_interface {
     network    = var.network
     subnetwork = var.subnetwork
+
+    access_config {
+    }
   }
+
+metadata = {
+  enable-oslogin = "FALSE"
+  ssh-keys       = "admin:${file("~/.ssh/gcp.pub")}"
+}
 
   service_account {
     email  = var.service_account_email

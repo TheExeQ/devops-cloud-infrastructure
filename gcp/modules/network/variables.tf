@@ -14,3 +14,8 @@ variable "subnet_cidr" {
   type        = string
   description = "CIDR range for the subnet"
 }
+
+variable "external_access_ip" {
+  type = string
+  description = "Allowed ssh for external ip"
+}
