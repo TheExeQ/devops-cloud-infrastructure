@@ -23,10 +23,10 @@ data "google_compute_default_service_account" "default" {
 module "network" {
   source = "../../modules/network"
 
-  project_id  = var.project_id
-  region      = var.region
-  environment = var.environment
-  subnet_cidr = var.subnet_cidr
+  project_id         = var.project_id
+  region             = var.region
+  environment        = var.environment
+  subnet_cidr        = var.subnet_cidr
   external_access_ip = var.external_access_ip
 
   depends_on = [google_project_service.compute]
