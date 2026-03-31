@@ -1,5 +1,5 @@
 locals {
-  gcp_apis = ["compute.googleapis.com", "run.googleapis.com"]
+  gcp_apis = ["artifactregistry.googleapis.com", "compute.googleapis.com", "iam.googleapis.com", "run.googleapis.com"]
 }
 
 resource "google_project_service" "compute" {
