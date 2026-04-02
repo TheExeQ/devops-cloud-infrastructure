@@ -1,5 +1,8 @@
 locals {
   db_vm_name = "${var.environment}-postgres"
+  postgres_ssh_user  = "admin"
+  postgres_public_key  = file("~/.ssh/gcp.pub")
+  postgres_private_key = pathexpand("~/.ssh/gcp")
 }
 
 resource "google_compute_disk" "postgres_data" {
@@ -41,7 +44,7 @@ resource "google_compute_instance" "postgres" {
 
 metadata = {
   enable-oslogin = "FALSE"
-  ssh-keys       = "admin:${file("~/.ssh/gcp.pub")}"
+  ssh-keys       = "${local.postgres_ssh_user}:${local.postgres_public_key}"
 }
 
   service_account {
