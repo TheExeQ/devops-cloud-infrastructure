@@ -50,7 +50,7 @@ module "compute" {
 }
 
 resource "local_file" "ansible_postgres_inventory" {
-  filename        = "${path.root}/../../../../ansible/inventories/dev/postgres.ini"
+  filename        = "${path.root}/../../../../ansible/inventories-generated/dev/postgres.ini"
   content         = <<-EOT
     [postgres]
     ${module.compute.postgres_name} ansible_host=${module.compute.postgres_public_ip} ansible_user=${module.compute.postgres_ssh_user} ansible_ssh_private_key_file=${module.compute.postgres_ssh_private_key}
