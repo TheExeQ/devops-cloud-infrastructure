@@ -1,0 +1,8 @@
+---
+- name: Configure PostgreSQL server
+  hosts: postgres
+  become: true
+  gather_facts: true
+
+  roles:
+    - postgres

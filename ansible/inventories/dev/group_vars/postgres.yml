@@ -1,0 +1,7 @@
+---
+postgresql_version: "15"
+postgresql_listen_addresses: "*"
+postgresql_host_auth_method: scram-sha-256
+
+# Example: ["10.10.0.0/24"]
+postgresql_allowed_cidrs: []

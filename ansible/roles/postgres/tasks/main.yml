@@ -1,0 +1,52 @@
+---
+- name: Validate supported operating system
+  ansible.builtin.assert:
+    that:
+      - ansible_distribution == "Debian"
+      - ansible_distribution_major_version == "12"
+    fail_msg: This role currently supports the Debian 12 VM provisioned by Terraform.
+
+- name: Install PostgreSQL packages
+  ansible.builtin.apt:
+    name:
+      - postgresql
+      - postgresql-contrib
+    state: present
+    update_cache: true
+
+- name: Configure PostgreSQL listen addresses
+  ansible.builtin.lineinfile:
+    path: "{{ postgresql_conf_path }}"
+    regexp: "^#?listen_addresses\\s*="
+    line: "listen_addresses = '{{ postgresql_listen_addresses }}'"
+  notify: Restart PostgreSQL
+
+- name: Configure PostgreSQL password encryption
+  ansible.builtin.lineinfile:
+    path: "{{ postgresql_conf_path }}"
+    regexp: "^#?password_encryption\\s*="
+    line: "password_encryption = '{{ postgresql_host_auth_method }}'"
+  notify: Restart PostgreSQL
+
+- name: Configure client authentication rules
+  ansible.builtin.blockinfile:
+    path: "{{ postgresql_hba_path }}"
+    marker: "# {mark} ANSIBLE MANAGED POSTGRES ACCESS"
+    block: |
+      {% if postgresql_allowed_cidrs | length == 0 %}
+      # Add trusted client CIDRs in inventories/<env>/group_vars/postgres.yml.
+      {% else %}
+      {% for cidr in postgresql_allowed_cidrs %}
+      host    all             all             {{ cidr }}            {{ postgresql_host_auth_method }}
+      {% endfor %}
+      {% endif %}
+  notify: Restart PostgreSQL
+
+- name: Ensure PostgreSQL service is enabled and running
+  ansible.builtin.service:
+    name: "{{ postgresql_service_name }}"
+    enabled: true
+    state: started
+
+- name: Apply pending handler changes
+  ansible.builtin.meta: flush_handlers

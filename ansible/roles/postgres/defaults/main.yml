@@ -1,0 +1,10 @@
+---
+postgresql_version: "15"
+postgresql_listen_addresses: "*"
+postgresql_allowed_cidrs: []
+postgresql_host_auth_method: scram-sha-256
+
+postgresql_config_dir: "/etc/postgresql/{{ postgresql_version }}/main"
+postgresql_conf_path: "{{ postgresql_config_dir }}/postgresql.conf"
+postgresql_hba_path: "{{ postgresql_config_dir }}/pg_hba.conf"
+postgresql_service_name: postgresql
