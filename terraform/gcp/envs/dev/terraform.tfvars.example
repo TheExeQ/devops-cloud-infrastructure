@@ -1,16 +1,5 @@
 project_id  = 
 region      = 
+zone        =
 environment = 
-subnet_cidr = 
 external_access_ip=
-
-# Optional Cloud Run overrides
-# cloud_run_service_name           = "app"
-# cloud_run_remote_repository_id   = "ghcr-remote"
-# cloud_run_upstream_image_path    = "theexeq/app:latest"
-# cloud_run_container_port         = 8080
-# cloud_run_allow_unauthenticated  = true
-# cloud_run_min_instance_count     = 0
-# cloud_run_max_instance_count     = 1
-# cloud_run_cpu                    = "1"
-# cloud_run_memory                 = "512Mi"

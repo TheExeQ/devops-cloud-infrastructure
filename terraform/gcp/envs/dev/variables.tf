@@ -23,6 +23,16 @@ variable "subnet_cidr" {
   default = "10.10.0.0/24"
 }
 
+variable "postgres_instance_ip" {
+  type    = string
+  default = "10.10.0.10"
+}
+
+variable "vpc_connector_cidr" {
+  type    = string
+  default = "10.8.0.0/28"
+}
+
 variable "cloud_run_service_name" {
   type    = string
   default = "app"

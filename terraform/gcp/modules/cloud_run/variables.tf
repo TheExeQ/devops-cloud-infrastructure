@@ -14,7 +14,20 @@ variable "service_name" {
   type    = string
 }
 
+variable "vpc_connector" {
+  type = string
+}
+
+variable "vpc_egress" {
+  type    = string
+  default = "PRIVATE_RANGES_ONLY"
+}
+
 variable "container_image" {
+  type = string
+}
+
+variable "database_url" {
   type = string
 }
 

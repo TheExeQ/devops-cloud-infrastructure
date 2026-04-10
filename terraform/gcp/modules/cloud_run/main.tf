@@ -15,6 +15,11 @@ resource "google_cloud_run_v2_service" "service" {
   template {
     service_account = google_service_account.cloud_run.email
 
+vpc_access {
+    connector = var.vpc_connector
+    egress    = var.vpc_egress
+  }
+
     scaling {
       min_instance_count = var.min_instance_count
       max_instance_count = var.max_instance_count
@@ -22,6 +27,11 @@ resource "google_cloud_run_v2_service" "service" {
 
     containers {
       image = var.container_image
+
+      env {
+        name = "DATABASE_URL"
+        value = var.database_url
+      }
 
       ports {
         container_port = var.container_port

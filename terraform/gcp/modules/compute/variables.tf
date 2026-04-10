@@ -33,6 +33,10 @@ variable "subnetwork" {
   type = string
 }
 
+variable "network_ip" {
+  type = string
+}
+
 variable "service_account_email" {
   type = string
 }

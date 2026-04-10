@@ -12,7 +12,7 @@ resource "google_compute_subnetwork" "subnet" {
   project       = var.project_id
 }
 
-resource "google_compute_firewall" "allow_ssh_acces" {
+resource "google_compute_firewall" "allow_ssh_access" {
   name    = "allow-ssh-access"
   network = google_compute_network.vpc.id
 
@@ -24,4 +24,15 @@ resource "google_compute_firewall" "allow_ssh_acces" {
     protocol = "tcp"
     ports    = ["22"]
   }
+}
+
+resource "google_vpc_access_connector" "connector" {
+  name          = "vpc-${var.environment}-run-connector"
+  project       = var.project_id
+  region        = var.region
+  network       = google_compute_network.vpc.name
+  ip_cidr_range = var.vpc_connector_cidr
+
+  min_instances = 2
+  max_instances = 3
 }

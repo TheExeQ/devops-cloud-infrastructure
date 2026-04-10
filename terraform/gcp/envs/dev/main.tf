@@ -31,6 +31,7 @@ module "network" {
   region             = var.region
   environment        = var.environment
   subnet_cidr        = var.subnet_cidr
+  vpc_connector_cidr = var.vpc_connector_cidr
   external_access_ip = var.external_access_ip
 
   depends_on = [google_project_service.compute]
@@ -44,6 +45,7 @@ module "compute" {
   zone                  = "${var.region}-${var.zone}"
   network               = module.network.network_id
   subnetwork            = module.network.subnetwork_id
+  network_ip            = var.postgres_instance_ip
   service_account_email = data.google_compute_default_service_account.default.email
 
   depends_on = [module.network]
@@ -66,7 +68,9 @@ module "cloud_run" {
   environment = var.environment
 
   service_name          = var.cloud_run_service_name
+  vpc_connector         = module.network.vpc_connector_id
   container_image       = local.cloud_run_container_image
+  database_url          = "postgres://postgres:postgres@${var.postgres_instance_ip}:5432/booksdb"
   container_port        = var.cloud_run_container_port
   allow_unauthenticated = var.cloud_run_allow_unauthenticated
   min_instance_count    = var.cloud_run_min_instance_count

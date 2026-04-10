@@ -37,6 +37,7 @@ resource "google_compute_instance" "postgres" {
   network_interface {
     network    = var.network
     subnetwork = var.subnetwork
+    network_ip = var.network_ip
 
     access_config {
     }
