@@ -33,13 +33,9 @@
     path: "{{ postgresql_hba_path }}"
     marker: "# {mark} ANSIBLE MANAGED POSTGRES ACCESS"
     block: |
-      {% if postgresql_allowed_cidrs | length == 0 %}
-      # Add trusted client CIDRs in inventories/<env>/group_vars/postgres.yml.
-      {% else %}
-      {% for cidr in postgresql_allowed_cidrs %}
+      {% for cidr in (postgresql_allowed_cidrs if postgresql_allowed_cidrs | length > 0 else ['0.0.0.0/0']) %}
       host    all             all             {{ cidr }}            {{ postgresql_host_auth_method }}
       {% endfor %}
-      {% endif %}
   notify: Restart PostgreSQL
 
 - name: Ensure PostgreSQL service is enabled and running
@@ -50,3 +46,18 @@
 
 - name: Apply pending handler changes
   ansible.builtin.meta: flush_handlers
+
+- name: Set password for postgres role
+  ansible.builtin.command:
+    cmd: >
+      runuser -u postgres -- psql -d postgres -c
+      "ALTER USER postgres WITH PASSWORD 'postgres';"
+
+- name: Ensure booksdb database exists
+  ansible.builtin.command:
+    cmd: runuser -u postgres -- createdb booksdb
+  register: create_booksdb_result
+  changed_when: create_booksdb_result.rc == 0
+  failed_when:
+    - create_booksdb_result.rc != 0
+    - "'already exists' not in create_booksdb_result.stderr"

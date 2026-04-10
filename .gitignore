@@ -1,5 +1,5 @@
 # Ansible
-ansible/**.inventory.ini
+ansible/**/**.inventory.ini
 
 # Local .terraform directories
 .terraform/
