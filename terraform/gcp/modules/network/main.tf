@@ -26,6 +26,27 @@ resource "google_compute_firewall" "allow_iap_ssh_access" {
   }
 }
 
+resource "google_compute_router" "nat" {
+  name    = "${var.environment}-nat-router"
+  project = var.project_id
+  region  = var.region
+  network = google_compute_network.vpc.id
+}
+
+resource "google_compute_router_nat" "subnet" {
+  name                               = "${var.environment}-nat"
+  project                            = var.project_id
+  region                             = var.region
+  router                             = google_compute_router.nat.name
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "LIST_OF_SUBNETWORKS"
+
+  subnetwork {
+    name                    = google_compute_subnetwork.subnet.id
+    source_ip_ranges_to_nat = ["ALL_IP_RANGES"]
+  }
+}
+
 resource "google_vpc_access_connector" "connector" {
   name          = "vpc-${var.environment}-run-connector"
   project       = var.project_id
