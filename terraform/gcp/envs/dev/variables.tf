@@ -14,10 +14,6 @@ variable "environment" {
   type = string
 }
 
-variable "external_access_ip" {
-  type = string
-}
-
 variable "subnet_cidr" {
   type    = string
   default = "10.10.0.0/24"

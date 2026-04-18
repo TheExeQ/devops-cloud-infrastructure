@@ -1,0 +1,14 @@
+---
+plugin: google.cloud.gcp_compute
+auth_kind: application
+projects:
+  - "devops-cloud-infra"
+filters:
+  - status = RUNNING
+hostnames:
+  - name
+groups:
+  postgres: "'postgres' in name"
+compose:
+  # Connect by instance name so SSH can be tunneled through IAP.
+  ansible_host: name

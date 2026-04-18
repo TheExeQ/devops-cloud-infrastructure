@@ -8,10 +8,6 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 7.21"
     }
-    local = {
-      source  = "hashicorp/local"
-      version = "~> 2.5"
-    }
   }
 }
 
@@ -32,7 +28,6 @@ module "network" {
   environment        = var.environment
   subnet_cidr        = var.subnet_cidr
   vpc_connector_cidr = var.vpc_connector_cidr
-  external_access_ip = var.external_access_ip
 
   depends_on = [google_project_service.compute]
 }
@@ -49,15 +44,6 @@ module "compute" {
   service_account_email = data.google_compute_default_service_account.default.email
 
   depends_on = [module.network]
-}
-
-resource "local_file" "ansible_postgres_inventory" {
-  filename        = "${path.root}/../../../../ansible/inventories/dev/postgres.inventory.ini"
-  content         = <<-EOT
-    [postgres]
-    ${module.compute.postgres_name} ansible_host=${module.compute.postgres_public_ip} ansible_user=${module.compute.postgres_ssh_user} ansible_ssh_private_key_file=${module.compute.postgres_ssh_private_key}
-  EOT
-  file_permission = "0644"
 }
 
 module "cloud_run" {

@@ -12,12 +12,12 @@ resource "google_compute_subnetwork" "subnet" {
   project       = var.project_id
 }
 
-resource "google_compute_firewall" "allow_ssh_access" {
-  name    = "allow-ssh-access"
+resource "google_compute_firewall" "allow_iap_ssh_access" {
+  name    = "allow-iap-ssh-access"
   network = google_compute_network.vpc.id
 
   direction     = "INGRESS"
-  source_ranges = ["${var.external_access_ip}/32"]
+  source_ranges = ["35.235.240.0/20"]
   target_tags   = ["postgres"]
 
   allow {
