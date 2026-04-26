@@ -1,6 +1,6 @@
 ---
 ansible_connection: ssh
-ansible_user: "{{ lookup('pipe', \"gcloud compute os-login describe-profile --format='value(posixAccounts[0].username)'\") }}"
+ansible_user: '{{ lookup(''pipe'', "gcloud compute os-login describe-profile --format=''value(posixAccounts[0].username)''") }}'
 ansible_ssh_private_key_file: "~/.ssh/google_compute_engine"
 ansible_ssh_common_args: >-
   -o ProxyCommand="gcloud compute start-iap-tunnel %h %p --listen-on-stdin --project devops-cloud-infra --zone europe-north2-a"
@@ -9,5 +9,4 @@ postgresql_version: "15"
 postgresql_listen_addresses: "*"
 postgresql_host_auth_method: scram-sha-256
 
-# Example: ["10.10.0.0/24"]
 postgresql_allowed_cidrs: []

@@ -5,6 +5,7 @@ projects:
   - "devops-cloud-infra"
 filters:
   - status = RUNNING
+  - "name = dev-postgres"
 hostnames:
   - name
 groups:
