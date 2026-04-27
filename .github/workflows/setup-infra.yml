@@ -36,25 +36,25 @@ jobs:
         with:
           project_id: ${{ vars.TF_VAR_PROJECT_ID }}
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v4
+      - name: Set up OpenTofu
+        uses: opentofu/setup-opentofu@v2
         with:
-          terraform_version: 1.14.9
+          tofu_version: 1.11.6
 
-      - name: Terraform fmt check
-        run: terraform fmt -check -recursive
+      - name: OpenTofu fmt check
+        run: tofu fmt -check -recursive
 
-      - name: Terraform init
+      - name: OpenTofu init
         run: |
-          terraform init \
+          tofu init \
             -backend-config="bucket=${{ vars.TF_BACKEND_BUCKET }}" \
             -backend-config="prefix=${{ vars.TF_BACKEND_PREFIX }}"
 
-      - name: Terraform validate
-        run: terraform validate
+      - name: OpenTofu validate
+        run: tofu validate
 
-      - name: Terraform apply
-        run: terraform apply -auto-approve
+      - name: OpenTofu apply
+        run: tofu apply -auto-approve
 
       - name: Install Ansible
         run: |
