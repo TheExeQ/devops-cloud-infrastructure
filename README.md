@@ -1,4 +1,4 @@
-# DevOps Cloud Infrastructure Demo
+# DevOps Cloud Infrastructure Demo ☁️
 
 [![CICD](https://github.com/TheExeQ/devops-cloud-infrastructure/actions/workflows/setup-infra.yml/badge.svg)](https://github.com/TheExeQ/devops-cloud-infrastructure/actions/workflows/setup-infra.yml)
 
