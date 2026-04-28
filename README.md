@@ -1,5 +1,7 @@
 # DevOps Cloud Infrastructure Demo
 
+[![CICD](https://github.com/TheExeQ/devops-cloud-infrastructure/actions/workflows/setup-infra.yml/badge.svg)](https://github.com/TheExeQ/devops-cloud-infrastructure/actions/workflows/setup-infra.yml)
+
 This repository contains a Google Cloud infrastructure project built around Terraform-style infrastructure as code, with Ansible used for post-provisioning server configuration.
 
 The project now covers more than a base network and database VM. It also includes container deployment support, private service-to-database connectivity, image registry integration, and CI-driven provisioning workflows.
